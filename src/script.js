@@ -5,13 +5,12 @@ const cartList = document.getElementById("cartList");
 
 let cart = [];
 
-
 function addToCart() {
     const productName = productInput.value.trim();
     const price = Number(priceInput.value);
 
+    // Tyst validering (INGEN alert, returnerar bara)
     if (!productName || isNaN(price) || price <= 0) {
-        alert("Fyll i produktnamn och ett giltigt pris!");
         return;
     }
 

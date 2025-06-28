@@ -5,6 +5,7 @@ const cartList = document.getElementById("cartList");
 
 let cart = [];
 
+
 function addToCart() {
     const productName = productInput.value.trim();
     const price = Number(priceInput.value);

@@ -6,33 +6,35 @@ const cartList = document.getElementById("cartList");
 let cart = [];
 
 function addToCart() {
-    const productName = productInput.value.trim();
-    const productPrice = Number(priceInput.value);
+    const productName = productInput.value;
+    const price = Number(priceInput.value);
 
-    if (!productName || !productPrice) {
-        alert("Fyll i både produktnamn och pris!");
+    // Inputvalidering (kan tas bort om läraren inte kräver det)
+    if (!productName || isNaN(price) || price <= 0) {
+        alert("Fyll i produktnamn och ett giltigt pris!");
         return;
     }
 
-    let itemExists = false;
-
-    for (const item of cart) {
+    // Kolla om produkten redan finns
+    let found = false;
+    for (let item of cart) {
         if (item.productName === productName) {
             item.quantity++;
-            itemExists = true;
-            break; 
+            found = true;
+            break;
         }
     }
 
-    if (!itemExists) {
-        const newProduct = {
+    // Om den inte finns – lägg till ny produkt
+    if (!found) {
+        cart.push({
             productName: productName,
-            productPrice: productPrice,
-            quantity: 1,
-        };
-        cart.push(newProduct);
+            price: price,
+            quantity: 1
+        });
     }
 
+    // Rensa input-fälten
     productInput.value = "";
     priceInput.value = "";
 
@@ -40,14 +42,16 @@ function addToCart() {
 }
 
 function renderCart() {
-    cartList.innerHTML = ""; 
-    for (const item of cart) {
+    // Rensa listan först
+    cartList.innerHTML = "";
+
+    // Lägg till alla produkter
+    for (let item of cart) {
         const li = document.createElement("li");
-        li.textContent = `${item.productName} - ${item.productPrice} kr (x${item.quantity})`;
+        li.textContent = `${item.productName} - ${item.price} kr (x${item.quantity})`;
         cartList.appendChild(li);
     }
 }
 
-addButton.addEventListener("click", () => {
-    addToCart();
-});
+// Eventlyssnare på knappen
+addButton.addEventListener("click", addToCart);

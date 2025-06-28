@@ -6,10 +6,9 @@ const cartList = document.getElementById("cartList");
 let cart = [];
 
 function addToCart() {
-    const productName = productInput.value.trim();
+    const productName = productInput.value;
     const price = Number(priceInput.value);
 
-    // Tyst validering (INGEN alert, returnerar bara)
     if (!productName || isNaN(price) || price <= 0) {
         return;
     }
@@ -39,9 +38,8 @@ function addToCart() {
 function renderCart() {
     cartList.innerHTML = "";
     for (let item of cart) {
-        const li = document.createElement("li");
-        li.textContent = `${item.productName} - ${item.price} kr (x${item.quantity})`;
-        cartList.appendChild(li);
+       
+        cartList.innerHTML += `<li>Produktnamn: ${item.productName}, Pris: ${item.price} kr, Antal: ${item.quantity}</li>`;
     }
 }
 

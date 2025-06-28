@@ -6,27 +6,28 @@ const cartList = document.getElementById("cartList");
 let cart = [];
 
 function addToCart() {
+    // lägga till objekt i array
+    // objektet består av input värden
     const productName = productInput.value;
-    const price = Number(priceInput.value);
+    const productPrice = Number(priceInput.value);
 
-    if (!productName || isNaN(price) || price <= 0) {
-        return;
-    }
+    const newProduct = {
+        productName: productName,
+        productPrice: productPrice,
+        quantity: 1,
+    };
 
-    let found = false;
-    for (let item of cart) {
+    let itemExist = false;
+
+    for (item of cart) {
         if (item.productName === productName) {
             item.quantity++;
-            found = true;
-            break;
+            itemExist = true;
         }
     }
-    if (!found) {
-        cart.push({
-            productName: productName,
-            price: price,
-            quantity: 1
-        });
+
+    if (!itemExist) {
+        cart.push(newProduct);
     }
 
     productInput.value = "";
@@ -37,10 +38,14 @@ function addToCart() {
 
 function renderCart() {
     cartList.innerHTML = "";
-    for (let item of cart) {
-       
-        cartList.innerHTML += `<li>Produktnamn: ${item.productName}, Pris: ${item.price} kr, Antal: ${item.quantity}</li>`;
+
+    for (item of cart) {
+        const li = document.createElement("li");
+        li.textContent = `${item.productName} - ${item.productPrice}kr (x${item.quantity})`;
+        cartList.appendChild(li);
     }
 }
 
-addButton.addEventListener("click", addToCart);
+addButton.addEventListener("click", () => {
+    addToCart();
+});

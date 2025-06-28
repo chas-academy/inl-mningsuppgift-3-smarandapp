@@ -7,29 +7,30 @@ let cart = [];
 
 function addToCart() {
     const productName = productInput.value.trim();
-    const price = Number(priceInput.value);
+    const productPrice = Number(priceInput.value);
 
-    if (!productName || isNaN(price) || price <= 0) {
-        alert("Fyll i ett produktnamn och ett giltigt pris!");
+    if (!productName || !productPrice) {
+        alert("Fyll i både produktnamn och pris!");
         return;
     }
 
     let itemExists = false;
 
-    for (let item of cart) {
-        if (item.productName.toLowerCase() === productName.toLowerCase()) {
+    for (const item of cart) {
+        if (item.productName === productName) {
             item.quantity++;
             itemExists = true;
-            break;
+            break; 
         }
     }
 
     if (!itemExists) {
-        cart.push({
+        const newProduct = {
             productName: productName,
-            price: price,
+            productPrice: productPrice,
             quantity: 1,
-        });
+        };
+        cart.push(newProduct);
     }
 
     productInput.value = "";
@@ -40,12 +41,13 @@ function addToCart() {
 
 function renderCart() {
     cartList.innerHTML = ""; 
-
-    for (let item of cart) {
+    for (const item of cart) {
         const li = document.createElement("li");
-        li.textContent = `${item.productName} - ${item.price} kr (x${item.quantity})`;
+        li.textContent = `${item.productName} - ${item.productPrice} kr (x${item.quantity})`;
         cartList.appendChild(li);
     }
 }
 
-addButton.addEventListener("click", addToCart);
+addButton.addEventListener("click", () => {
+    addToCart();
+});

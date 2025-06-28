@@ -6,18 +6,18 @@ const cartList = document.getElementById("cartList");
 let cart = [];
 
 function addToCart() {
-    const productName = productInput.value; 
+    const productName = productInput.value.trim();
     const price = Number(priceInput.value);
 
-    if (!productName || !price) {
-        alert("Fyll i både produktnamn och pris!");
+    if (!productName || isNaN(price) || price <= 0) {
+        alert("Fyll i ett produktnamn och ett giltigt pris!");
         return;
     }
 
     let itemExists = false;
 
     for (let item of cart) {
-        if (item.productName === productName) {
+        if (item.productName.toLowerCase() === productName.toLowerCase()) {
             item.quantity++;
             itemExists = true;
             break;
@@ -43,7 +43,7 @@ function renderCart() {
 
     for (let item of cart) {
         const li = document.createElement("li");
-        li.textContent = `${item.productName} - ${item.price}kr (x${item.quantity})`;
+        li.textContent = `${item.productName} - ${item.price} kr (x${item.quantity})`;
         cartList.appendChild(li);
     }
 }

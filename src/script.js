@@ -6,10 +6,10 @@ const cartList = document.getElementById("cartList");
 let cart = [];
 
 function addToCart() {
-    const productName = productInput.value;
+    const productName = productInput.value.trim();
     const price = Number(priceInput.value);
 
-    // Inputvalidering (kan tas bort om läraren inte kräver det)
+    // Inputvalidering
     if (!productName || isNaN(price) || price <= 0) {
         alert("Fyll i produktnamn och ett giltigt pris!");
         return;
@@ -29,7 +29,7 @@ function addToCart() {
     if (!found) {
         cart.push({
             productName: productName,
-            price: price,
+            price: price,        // ← KORREKT NAMN!
             quantity: 1
         });
     }
@@ -42,16 +42,13 @@ function addToCart() {
 }
 
 function renderCart() {
-    // Rensa listan först
-    cartList.innerHTML = "";
-
-    // Lägg till alla produkter
+    cartList.innerHTML = ""; // Rensa listan först
     for (let item of cart) {
         const li = document.createElement("li");
+        // Använd item.price, INTE item.productPrice!
         li.textContent = `${item.productName} - ${item.price} kr (x${item.quantity})`;
         cartList.appendChild(li);
     }
 }
 
-// Eventlyssnare på knappen
 addButton.addEventListener("click", addToCart);
